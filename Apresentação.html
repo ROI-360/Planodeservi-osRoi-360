@@ -32,7 +32,7 @@
             margin-top: 0.5rem;
             margin-bottom: 0.5rem;
         }
-         .flow-arrow-h::after {
+        .flow-arrow-h::after {
             content: '▶';
             font-size: 2rem;
             color: #60A5FA;
@@ -288,6 +288,14 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
+            // Verifica se Chart.js e ChartDataLabels estão disponíveis
+            if (typeof Chart === "undefined" || typeof ChartDataLabels === "undefined") {
+                console.error("Chart.js ou ChartDataLabels não carregados corretamente.");
+                return;
+            }
+            // Registra o plugin
+            Chart.register(window.ChartDataLabels);
+
             function wrapLabels(label, maxWidth) {
                 const words = label.split(' ');
                 const lines = [];
@@ -369,13 +377,23 @@
                 }
             };
 
-            Chart.register(ChartDataLabels);
+            function createChart(canvasId, config) {
+                const el = document.getElementById(canvasId);
+                if (el && el.getContext) {
+                    return new Chart(el.getContext('2d'), config);
+                }
+            }
 
-            const adFormatCtx = document.getElementById('adFormatChart').getContext('2d');
-            new Chart(adFormatCtx, {
+            createChart('adFormatChart', {
                 type: 'bar',
                 data: {
-                    labels: ['Vídeo de Transformação', 'Antes e Depois', 'Carrossel de Resultados', wrapLabels('Depoimento de Cliente', 16), 'Imagem Única'],
+                    labels: [
+                        'Vídeo de Transformação',
+                        'Antes e Depois',
+                        'Carrossel de Resultados',
+                        wrapLabels('Depoimento de Cliente', 16),
+                        'Imagem Única'
+                    ],
                     datasets: [{
                         label: 'Nível de Engajamento',
                         data: [95, 92, 85, 88, 70],
@@ -400,17 +418,13 @@
                     },
                     scales: {
                         x: {
-                            grid: {
-                                display: false
-                            },
+                            grid: { display: false },
                             ticks: {
                                 color: '#FFFFFF',
                                 autoSkip: false,
                                 maxRotation: 45,
                                 minRotation: 45,
-                                font: {
-                                    size: 10
-                                }
+                                font: { size: 10 }
                             }
                         },
                         y: commonChartOptions.scales.y
@@ -418,11 +432,13 @@
                 }
             });
 
-            const investmentCtx = document.getElementById('investmentChart').getContext('2d');
-            new Chart(investmentCtx, {
+            createChart('investmentChart', {
                 type: 'doughnut',
                 data: {
-                    labels: ['Orçamento de Anúncios (Facebook/Instagram)', 'Gestão e Otimização ROI-360'],
+                    labels: [
+                        'Orçamento de Anúncios (Facebook/Instagram)',
+                        'Gestão e Otimização ROI-360'
+                    ],
                     datasets: [{
                         label: 'Investimento Médio',
                         data: [750, 1900],
@@ -458,14 +474,13 @@
                 }
             });
 
-            const optimizationCtx = document.getElementById('optimizationChart').getContext('2d');
-            new Chart(optimizationCtx, {
+            createChart('optimizationChart', {
                 type: 'line',
                 data: {
                     labels: ['Mês 1', 'Mês 2', 'Mês 3', 'Mês 4'],
                     datasets: [{
                         label: 'Custo de Clientes (R$)',
-                        data: [10.00, 5.00, 2.00, 0.65], /* Dados ajustados */
+                        data: [10.00, 5.00, 2.00, 0.65], // Dados ajustados
                         fill: true,
                         backgroundColor: 'rgba(78, 205, 196, 0.2)',
                         borderColor: '#4ECDC4',
@@ -495,4 +510,3 @@
         });
     </script>
 </body>
-</head>
