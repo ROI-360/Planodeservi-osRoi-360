@@ -86,8 +86,15 @@
         }
     </style>
 </head>
-<body class="bg-[#1A202C] text-gray-200">
-
+<body>
+    <!-- 
+        Nota: O conteúdo dentro da tag <title> no <head> é o que aparece na aba do navegador,
+        e não é visível no corpo do site. Se você está vendo "PlanodeservicosRoi-360 <!DOCTYPE html>"
+        diretamente no site, é provável que o arquivo HTML não esteja sendo servido corretamente
+        (ex: está sendo interpretado como texto puro) pelo seu servidor (GitHub Pages).
+        Certifique-se de que o arquivo está nomeado como 'index.html' e que as configurações do GitHub Pages
+        estão corretas para servir o conteúdo HTML.
+    -->
     <main class="container mx-auto p-4 md:p-8">
 
         <header class="text-center py-8">
